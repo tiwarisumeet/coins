@@ -1,0 +1,7 @@
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io.connect('https://coins_-c9-niktrix.c9.io/');
+  socket.on('news', function (data) {
+    console.log(data);
+  });
+</script>
