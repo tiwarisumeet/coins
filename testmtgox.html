@@ -1,0 +1,24 @@
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var conn = io.connect('https://socketio.mtgox.com/mtgox');
+    conn.on('message', function(data) {
+        // Handle incoming data object.
+        console.log(data);
+    });
+</script>
+<html>
+<head>
+<script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+</head>
+    <body>
+        <span id="high"></span>
+        <span id="last"></span>
+        <span id="timestamp"></span>
+        <span id="bid"></span>
+        <span id="volume"></span>
+        <span id="low"></span>
+        <span id="ask"></span>
+    </body>
+    
+</html>

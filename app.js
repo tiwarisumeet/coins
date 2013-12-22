@@ -7,6 +7,10 @@ app.get('/', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
 
+app.get('/mtgox', function (req, res) {
+  res.sendfile(__dirname + '/testmtgox.html');
+});
+
 io.sockets.on('connection', function (socket) {
  request('https://www.bitstamp.net/api/ticker/', function (error, response, body) {
      console.log(body); 
