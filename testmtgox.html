@@ -1,33 +1,77 @@
 <script src="/socket.io/socket.io.js"></script>
+<script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+
+ 
+<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.3.11/d3.js"></script>
+<link href="//cdnjs.cloudflare.com/ajax/libs/nvd3/1.1.14-beta/nv.d3.css" rel="stylesheet" type="text/css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/nvd3/1.1.14-beta/nv.d3.js"></script>
+<script src="//rawgithub.com/novus/nvd3/master/src/models/cumulativeLineChart.js"></script>
 <script>
-    var conn = io.connect('https://socketio.mtgox.com/mtgox');
+    var conn = io.connect('//socketio.mtgox.com/mtgox');
     conn.on('message', function(data) {
         // Handle incoming data object.
-       
+         console.log(data);
         if(data.channel==="d5f06780-30a8-4a48-a2f8-7ed181b4a13f")
         {
-             console.log(data);
-              console.log(data.ticker.avg.value);
+            
               $("#buyvalue").text(data.ticker.buy.value);
               $("#sellvalue").text(data.ticker.sell.value);
               $("#highvalue").text(data.ticker.high.value);
+               $("#lowvalue").text(data.ticker.low.value);
+        $("#volume").text(data.ticker.vol.value);
+        $("#timestamp").text(data.stamp);
         }
     });
+    
+    initgraph();
+   var data = [{"values":[{"x":1387782918992973,"y":630},{"x":1387782939280332,"y":660},{"x":1387782939280332,"y":550},{"x":1387782939280332,"y":100}],"key":"Sine Wave","color":"#ff7f0e"}] ;  
+    
+    function redraw()
+    {
+        $("#chart svg").empty();
+         d3.select('#chart').datum(data).transition().duration(500).call(chart);
+    nv.utils.windowResize(chart.update);
+    
+    }
+    
+  function  initgraph(){
+  data = [{"values":[{"x":1387782918992973,"y":630},{"x":1387782939280332,"y":660},{"x":1387782939280332,"y":650},{"x":1387782939280332,"y":700}],"key":"Sine Wave","color":"#ff7f0e"}] ;
+    nv.addGraph(function() {
+  var chart = nv.models.lineChart();
+
+  chart.xAxis
+      .axisLabel('Time (ms)')
+      .tickFormat(d3.format(',r'));
+
+  chart.yAxis
+      .axisLabel('Voltage (v)')
+      .tickFormat(d3.format('.02f'));
+
+  d3.select('#chart')
+      .datum(data)
+    .transition().duration(500)
+      .call(chart);
+
+  nv.utils.windowResize(chart.update);
+  return chart;
+});
+}
+
 </script>
 <html>
 <head>
-<script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
-<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 </head>
     <body>
-        Buy <span id="buyvalue"></span> <br/>
-       High <span id="highvalue"></span><br/>
+       Buy <span id="buyvalue"></span> <br/>
        Sell <span id="sellvalue"></span><br/>
-        <span id="timestamp"></span><br/>
-        <span id="bid"></span><br/>
-        <span id="volume"></span>
-        <span id="low"></span>
-        <span id="ask"></span>
+       High <span id="highvalue"></span><br/>
+       low <span id="lowvalue"></span><br/>
+       Volume <span id="volume"></span><br/>
+        timestamp <span id="timestamp"></span><br/>
+        
+        <svg id=chart></svg>
     </body>
     
 </html>
