@@ -3,7 +3,15 @@
     var conn = io.connect('https://socketio.mtgox.com/mtgox');
     conn.on('message', function(data) {
         // Handle incoming data object.
-        console.log(data);
+       
+        if(data.channel==="d5f06780-30a8-4a48-a2f8-7ed181b4a13f")
+        {
+             console.log(data);
+              console.log(data.ticker.avg.value);
+              $("#buyvalue").text(data.ticker.buy.value);
+              $("#sellvalue").text(data.ticker.sell.value);
+              $("#highvalue").text(data.ticker.high.value);
+        }
     });
 </script>
 <html>
@@ -12,10 +20,11 @@
 <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 </head>
     <body>
-        <span id="high"></span>
-        <span id="last"></span>
-        <span id="timestamp"></span>
-        <span id="bid"></span>
+        Buy <span id="buyvalue"></span> <br/>
+       High <span id="highvalue"></span><br/>
+       Sell <span id="sellvalue"></span><br/>
+        <span id="timestamp"></span><br/>
+        <span id="bid"></span><br/>
         <span id="volume"></span>
         <span id="low"></span>
         <span id="ask"></span>
