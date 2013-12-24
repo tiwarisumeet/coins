@@ -19,14 +19,14 @@ rel="stylesheet" type="text/css">
         // Handle incoming data object.
        // console.log(data);
         if (data.channel === "d5f06780-30a8-4a48-a2f8-7ed181b4a13f") {
-            // document.title = data.ticker.buy.value;
+              document.title = data.ticker.buy.value+"$";
 
             //document.title = buy.length;
             $("#buyvalue").text(data.ticker.buy.value+" $");
             $("#sellvalue").text(data.ticker.sell.value+" $");
             // $("#highvalue").text(data.ticker.high.value);
             // $("#lowvalue").text(data.ticker.low.value);
-            $("#volume").text(data.ticker.vol.value+" $");
+            $("#volume").text(data.ticker.vol.value);
             // $("#timestamp").text(data.stamp);
             maxValue = data.ticker.high.value + 100;
 
@@ -180,11 +180,11 @@ rel="stylesheet" type="text/css">
             <div class="card">
                 <h1>
                     <strong>Buy:</strong>
-                    <span id="buyvalue"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span id="buyvalue">Loading...</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <strong>Sell:</strong>
-                    <span id="sellvalue"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span id="sellvalue">Loading...</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <strong>Volume:</strong>
-                    <span id="volume"></span>
+                    <span id="volume">Loading...</span>
                 </h1>
                  <p>Realtime Mt.Gox Exchange rates.</p>
             </div>
