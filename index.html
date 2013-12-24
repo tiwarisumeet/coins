@@ -17,7 +17,7 @@ rel="stylesheet" type="text/css">
     var conn = io.connect('//socketio.mtgox.com/mtgox');
     conn.on('message', function(data) {
         // Handle incoming data object.
-        console.log(data);
+       // console.log(data);
         if (data.channel === "d5f06780-30a8-4a48-a2f8-7ed181b4a13f") {
             // document.title = data.ticker.buy.value;
 
