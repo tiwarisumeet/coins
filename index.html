@@ -1,53 +1,198 @@
-<!DOCTYPE html>
+<script src="//socketio.mtgox.com/socket.io/socket.io.js"></script>
+<script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.3.11/d3.js"></script>
+<link href="//cdnjs.cloudflare.com/ajax/libs/nvd3/1.1.14-beta/nv.d3.css"
+rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"
+rel="stylesheet" type="text/css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/nvd3/1.1.14-beta/nv.d3.js"></script>
+<script src="//rawgithub.com/novus/nvd3/master/src/models/cumulativeLineChart.js"></script>
+<script>
+    var buy = [];
+    var sell = [];
+    var high = [];
+    var low = [];
+    var maxValue;
+    var conn = io.connect('//socketio.mtgox.com/mtgox');
+    conn.on('message', function(data) {
+        // Handle incoming data object.
+        console.log(data);
+        if (data.channel === "d5f06780-30a8-4a48-a2f8-7ed181b4a13f") {
+            // document.title = data.ticker.buy.value;
+
+            //document.title = buy.length;
+            $("#buyvalue").text(data.ticker.buy.value+" $");
+            $("#sellvalue").text(data.ticker.sell.value+" $");
+            // $("#highvalue").text(data.ticker.high.value);
+            // $("#lowvalue").text(data.ticker.low.value);
+            $("#volume").text(data.ticker.vol.value+" $");
+            // $("#timestamp").text(data.stamp);
+            maxValue = data.ticker.high.value + 100;
+
+
+            if (buy.length >= 50) {
+                buy.splice(0, 1);
+                sell.splice(0, 1);
+                low.splice(0, 1);
+                high.splice(0, 1);
+            }
+
+            buy.push({
+                x: data.stamp,
+                y: data.ticker.buy.value
+            });
+            sell.push({
+                x: data.stamp,
+                y: data.ticker.sell.value
+            });
+            low.push({
+                x: data.stamp,
+                y: data.ticker.low.value
+            });
+            high.push({
+                x: data.stamp,
+                y: data.ticker.high.value
+            });
+
+
+            initgraph();
+        }
+    });
+
+    //     initgraph();
+    //   var data = [{"values":[{"x":1387782918992973,"y":630},{"x":1387782939280332,"y":660},{"x":1387782939280332,"y":550},{"x":1387782939280332,"y":100}],"key":"Sine Wave","color":"#ff7f0e"}] ;  
+
+
+
+
+    initgraph();
+
+    var data = [{
+        "key": "Buy",
+        "color": "#1851CE",
+        "values": buy
+    }, {
+        "key": "sell",
+        "color": "#C61800",
+        "values": sell
+    }, {
+        "key": "high",
+        "color": "#FFCF00",
+        "values": high
+    }, {
+        "key": "low",
+        "color": "#31B639",
+        "values": low
+    }];
+
+
+    function initgraph() {
+        nv.addGraph(function() {
+            var chart = nv.models.lineChart();
+
+            chart.xAxis.axisLabel('Time');
+
+            chart.yAxis.scale().domain([0, maxValue]);
+            chart.yAxis.axisLabel('$');
+            
+            chart.showXAxis(false);
+
+
+            d3.select('#chart').datum(data).transition().duration(500).call(chart);
+
+            nv.utils.windowResize(chart.update);
+            return chart;
+        });
+    }
+</script>
+<style>
+    /**
+* "Google Now" Card
+*/
+    body {
+        background: #e1e1e1;
+        min-height: 100%;
+        margin: auto;
+    }
+    h1 {
+        font-size:2rem;
+        font-weight:200;
+    }
+    strong {
+        font-weight:300;
+        color:#539D00;
+    }
+    h2 {
+        font-size:.9rem;
+        line-height:2.5;
+        color:gray;
+        font-weight:400;
+    }
+    div.card {
+        background: #fff;
+        width:80%;
+        padding: 15px;
+        box-shadow: 0px 3px rgba(0, 0, 0, 0.1);
+        font-family: Open Sans;
+        color: #444;
+        font-size: 14px;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        margin-left:auto;
+        margin-right:auto;
+        margin-top:10px;
+        margin-bottom:10px;
+    }
+    div.card p {
+        margin: 0 0 15px 0;
+    }
+    div.card p.card-title {
+        font-size: 28px;
+    }
+    div.card p.url {
+        border-top: 1px solid #e5e5e5;
+        background-image: url('http://www.eriklindemann.com/wp-content/uploads/2013/05/url.png');
+        background-repeat: no-repeat;
+        padding: 6px 0 0 30px;
+        height: 30px;
+        display: block;
+        margin-bottom: -10px;
+    }
+    div.card p.url a {
+        color: #04bff4;
+        text-decoration: none;
+        top: 4px;
+        display: block;
+        position: relative;
+    }
+    div.card img.full {
+        margin: 0 0 15px -15px;
+    }
+</style>
 <html>
-
-  <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Coins : coins" />
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Coins</title>
-  </head>
-
-  <body>
-
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/niktrix/coins">View on GitHub</a>
-
-          <h1 id="project_title">Coins</h1>
-          <h2 id="project_tagline">coins</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/niktrix/coins/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/niktrix/coins/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <p>modules uses
-npm install request 
-npm install socket.io</p>
-
-<p><a href="https://github.com/mikeal/request">https://github.com/mikeal/request</a></p>
-      </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Coins maintained by <a href="https://github.com/niktrix">niktrix</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
     
+    <body>
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:500,400,300"
+        rel="stylesheet" type="text/css">
+         
+            <div class="card">
+                <h1>
+                    <strong>Buy:</strong>
+                    <span id="buyvalue"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <strong>Sell:</strong>
+                    <span id="sellvalue"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <strong>Volume:</strong>
+                    <span id="volume"></span>
+                </h1>
+                 <p>Realtime Mt.Gox Exchange rates.</p>
+            </div>
+            <div class="card">
+                <!--<p class="card-title"></p>-->
+                <!--<p>Font is Open Sans. Title is 28px, whereas the body is 14px.</p>-->
+                <svg id=chart></svg>
+            </div>
+    </body>
 
-  </body>
 </html>
