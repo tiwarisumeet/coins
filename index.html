@@ -1,23 +1,25 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
-  var socket = io.connect('https://coins_-c9-niktrix.c9.io/');
-  socket.on('news', function (data) {
-    data= jQuery.parseJSON(data);
-    document.title = data.ask;
-    $("#high").text(data.high);
-    $("#last").text(data.last);
-    $("#timestamp").text(data.timestamp);
-    $("#bid").text(data.bid);
-    $("#volume").text(data.volume);
-    $("#low").text(data.low);
-    $("#ask").text(data.ask);
-  });
+    var socket = io.connect('https://coins_-c9-niktrix.c9.io/');
+    socket.on('news', function(data) {
+        data = jQuery.parseJSON(data);
+        document.title = data.ask;
+        $("#high").text(data.high);
+        $("#last").text(data.last);
+        $("#timestamp").text(data.timestamp);
+        $("#bid").text(data.bid);
+        $("#volume").text(data.volume);
+        $("#low").text(data.low);
+        $("#ask").text(data.ask);
+    });
 </script>
 <html>
-<head>
-<script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
-<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-</head>
+    
+    <head>
+        <script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    </head>
+    
     <body>
         <span id="high"></span>
         <span id="last"></span>
@@ -27,5 +29,5 @@
         <span id="low"></span>
         <span id="ask"></span>
     </body>
-    
+
 </html>
