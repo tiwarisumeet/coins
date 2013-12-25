@@ -6,6 +6,9 @@
 rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"
 rel="stylesheet" type="text/css">
+<link href="//ricostacruz.com/nprogress/nprogress.css"
+rel="stylesheet" type="text/css">
+<script src="//ricostacruz.com/nprogress/nprogress.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/nvd3/1.1.14-beta/nv.d3.js"></script>
 <script src="//rawgithub.com/novus/nvd3/master/src/models/cumulativeLineChart.js"></script>
 <script>
@@ -15,6 +18,7 @@ rel="stylesheet" type="text/css">
     var low = [];
     var maxValue;
     var conn = io.connect('//socketio.mtgox.com/mtgox');
+    NProgress.start();
     conn.on('message', function(data) {
         // Handle incoming data object.
        // console.log(data);
@@ -29,7 +33,7 @@ rel="stylesheet" type="text/css">
             $("#volume").text(data.ticker.vol.value);
             // $("#timestamp").text(data.stamp);
             maxValue = data.ticker.high.value + 100;
-
+            NProgress.done();
 
             if (buy.length >= 50) {
                 buy.splice(0, 1);
