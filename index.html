@@ -17,7 +17,7 @@ rel="stylesheet" type="text/css">
     var low = [];
     var maxValue;
     var conn = io.connect('//socketio.mtgox.com/mtgox');
-    NProgress.start();
+    //NProgress.start();
     conn.on('message', function(data) {
         // Handle incoming data object.
        // console.log(data);
@@ -32,7 +32,7 @@ rel="stylesheet" type="text/css">
             $("#volume").text(data.ticker.vol.value);
             // $("#timestamp").text(data.stamp);
             maxValue = data.ticker.high.value + 100;
-            NProgress.done();
+            //NProgress.done();
 
             if (buy.length >= 50) {
                 buy.splice(0, 1);
