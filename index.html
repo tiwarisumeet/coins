@@ -1,14 +1,14 @@
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"
 rel="stylesheet" type="text/css">
-<!--<link href="//ricostacruz.com/nprogress/nprogress.css"-->
-<!--rel="stylesheet" type="text/css">-->
+<link href="//rawgithub.com/rstacruz/nprogress/gh-pages/nprogress.css"
+rel="stylesheet" type="text/css">
 <script src="//socketio.mtgox.com/socket.io/socket.io.js"></script>
 <script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.3.11/d3.js"  charset="utf-8"></script>
 <link href="//cdnjs.cloudflare.com/ajax/libs/nvd3/1.1.14-beta/nv.d3.css"
 rel="stylesheet" type="text/css">
-<!--<script src="//ricostacruz.com/nprogress/nprogress.js"></script>-->
+<script src="//rawgithub.com/rstacruz/nprogress/gh-pages/nprogress.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/nvd3/1.1.14-beta/nv.d3.js"></script>
 <script src="//rawgithub.com/novus/nvd3/master/src/models/cumulativeLineChart.js"></script>
 <script>
@@ -18,7 +18,7 @@ rel="stylesheet" type="text/css">
     var low = [];
     var maxValue;
     var conn = io.connect('//socketio.mtgox.com/mtgox');
-    //NProgress.start();
+    NProgress.start();
     conn.on('message', function(data) {
         // Handle incoming data object.
        // console.log(data);
@@ -33,7 +33,7 @@ rel="stylesheet" type="text/css">
             $("#volume").text(data.ticker.vol.value);
             // $("#timestamp").text(data.stamp);
             maxValue = data.ticker.high.value + 100;
-            //NProgress.done();
+            NProgress.done();
 
             if (buy.length >= 50) {
                 buy.splice(0, 1);
